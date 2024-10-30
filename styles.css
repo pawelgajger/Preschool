@@ -191,7 +191,8 @@ section.location {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	margin: 50px 0;
+	max-width: 2500px; /* Maksymalna szerokość kontenera */
+	margin: 50px auto; /* Wyśrodkowanie kontenera na stronie */
 	text-align: center;
 	border-radius: 15px; /* Zaokrąglenia rogów */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Delikatny cień dla efektu głębi */
