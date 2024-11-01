@@ -55,7 +55,7 @@ p {
 	z-index: 1; /* Zapewnia, że główne elementy nawigacyjne są wyżej w hierarchii */
 }
 
-/* Efekt slideDown dla każdego elementu menu */
+/* Efekt slideDown dla każdego elementu głównego menu */
 @keyframes slideDown {
 	0% {
 		opacity: 0;
@@ -67,27 +67,58 @@ p {
 	}
 }
 
-.navbar ul li {
+/* Efekt szybkiego pojawiania się dla elementów dropdown */
+@keyframes dropdownFade {
+	0% {
+		opacity: 0;
+		transform: translateY(-10px); /* Minimalne przesunięcie w górę */
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Efekt slideDown dla każdego elementu głównego menu */
+@keyframes slideDown {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Główne elementy nawigacyjne */
+.navbar > ul > li {
 	margin: 0 15px;
 	opacity: 0; /* Ukryj na początku */
 	transform: translateY(-20px); /* Przesuń lekko w górę na start */
-	animation: slideDown 0.5s ease forwards; /* Efekt slideDown */
+	animation: slideDown 0.4s ease forwards; /* Efekt slideDown */
 }
 
-.navbar ul li:nth-child(1) {
+.navbar > ul > li:nth-child(1) {
 	animation-delay: 0.1s;
 }
-.navbar ul li:nth-child(2) {
+.navbar > ul > li:nth-child(2) {
 	animation-delay: 0.2s;
 }
-.navbar ul li:nth-child(3) {
+.navbar > ul > li:nth-child(3) {
 	animation-delay: 0.3s;
 }
-.navbar ul li:nth-child(4) {
+.navbar > ul > li:nth-child(4) {
 	animation-delay: 0.4s;
 }
-.navbar ul li:nth-child(5) {
-	animation-delay: 0.5s;
+.navbar > ul > li:nth-child(5) {
+	animation-delay: 0.45s;
+}
+
+/* Elementy w dropdown - bez animacji */
+.navbar ul .dropdown li {
+	opacity: 1; /* Bez ukrycia na początku */
+	transform: translateY(0); /* Brak przesunięcia */
 }
 
 /* Główne linki w menu */
