@@ -37,7 +37,6 @@ p {
 
 /* Pasek nawigacyjny */
 .navbar {
-	/* background-color: #ffdab9; Jasny pastelowy róż */
 	padding: 1rem;
 	text-align: center;
 }
@@ -49,76 +48,11 @@ p {
 }
 
 .navbar ul li {
+	margin: 0 15px;
 	display: inline-block;
 	position: relative; /* Pozwala na pozycjonowanie dropdownów */
 	margin: 0 15px;
 	z-index: 1; /* Zapewnia, że główne elementy nawigacyjne są wyżej w hierarchii */
-}
-
-/* Efekt slideDown dla każdego elementu głównego menu */
-@keyframes slideDown {
-	0% {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* Efekt szybkiego pojawiania się dla elementów dropdown */
-@keyframes dropdownFade {
-	0% {
-		opacity: 0;
-		transform: translateY(-10px); /* Minimalne przesunięcie w górę */
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* Efekt slideDown dla każdego elementu głównego menu */
-@keyframes slideDown {
-	0% {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* Główne elementy nawigacyjne */
-.navbar > ul > li {
-	margin: 0 15px;
-	opacity: 0; /* Ukryj na początku */
-	transform: translateY(-20px); /* Przesuń lekko w górę na start */
-	animation: slideDown 0.4s ease forwards; /* Efekt slideDown */
-}
-
-.navbar > ul > li:nth-child(1) {
-	animation-delay: 0.1s;
-}
-.navbar > ul > li:nth-child(2) {
-	animation-delay: 0.2s;
-}
-.navbar > ul > li:nth-child(3) {
-	animation-delay: 0.3s;
-}
-.navbar > ul > li:nth-child(4) {
-	animation-delay: 0.4s;
-}
-.navbar > ul > li:nth-child(5) {
-	animation-delay: 0.45s;
-}
-
-/* Elementy w dropdown - bez animacji */
-.navbar ul .dropdown li {
-	opacity: 1; /* Bez ukrycia na początku */
-	transform: translateY(0); /* Brak przesunięcia */
 }
 
 /* Główne linki w menu */
@@ -603,4 +537,16 @@ section.location {
 	footer {
 		font-size: 12px; /* Zmniejszenie czcionki w stopce */
 	}
+}
+
+/* Elementy, które pojawiają się podczas przewijania */
+.scroll-animate {
+	opacity: 0;
+	transform: translateY(20px); /* Opcjonalne przesunięcie na początku */
+	transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-animate.active {
+	opacity: 1;
+	transform: translateY(0); /* Element wraca do normalnej pozycji */
 }
