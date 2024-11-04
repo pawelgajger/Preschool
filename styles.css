@@ -565,6 +565,18 @@ section.location {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Delikatny cień */
 }
 
+.food-image-container {
+	max-width: 100%; /* Kontener obrazu nie przekroczy szerokości rodzica */
+	text-align: center; /* Wyśrodkowanie obrazu w kontenerze */
+}
+
+.food {
+	width: 60%; /* Obraz dopasowuje się do szerokości kontenera */
+	height: auto; /* Wysokość automatycznie dostosowuje się, aby zachować proporcje */
+	border-radius: 10px; /* Opcjonalnie zaokrąglenie rogów */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Dodanie cienia */
+}
+
 .text-container {
 	background-color: rgba(70, 130, 180, 0.5); /* Półprzezroczysty jasnoniebieski kolor */
 	padding: 20px;
@@ -814,4 +826,63 @@ body {
 img {
 	-webkit-user-drag: none; /* Chrome, Safari, Opera */
 	user-drag: none;
+}
+
+.news-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.news-table th,
+.news-table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+.news-table th {
+	background-color: #f2f2f2;
+	font-weight: bold;
+}
+
+.menu-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+.menu-table th,
+.menu-table td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+.menu-table th {
+	background-color: #f2f2f2;
+	font-weight: bold;
+}
+
+.download-link {
+	display: inline-flex; /* Aby wyświetlić ikonę i tekst w linii */
+	align-items: center; /* Wyrównaj ikonę i tekst do środka */
+	padding: 10px 20px;
+	background-color: #3498db;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: bold;
+	margin-top: 10px;
+	transition: background-color 0.3s ease;
+}
+
+.download-link:hover {
+	background-color: #2980b9;
+}
+
+.document-icon {
+	margin-right: 8px; /* Odstęp między ikoną a tekstem */
+	vertical-align: middle; /* Wyrównanie ikony do środka */
+	color: #fff; /* Kolor ikony */
 }

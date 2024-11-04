@@ -120,9 +120,7 @@ document.querySelectorAll('img').forEach(img => {
 // Funkcja sprawdzająca dostępność pliku
 async function checkFileExists(url) {
 	try {
-		console.log('Sprawdzanie dostępności pliku:', url) // Dodane debugowanie
-		const response = await fetch(url, { method: 'GET', cache: 'no-cache' })
-		console.log('Odpowiedź serwera:', response.status) // Dodane debugowanie
+		const response = await fetch(url, { method: 'HEAD' })
 		return response.ok // Zwraca true, jeśli plik istnieje
 	} catch (error) {
 		console.error('Błąd podczas sprawdzania pliku:', error)
@@ -130,30 +128,88 @@ async function checkFileExists(url) {
 	}
 }
 
-// Funkcja do wyświetlenia odpowiedniego komunikatu lub linku
-async function validateFileAvailability() {
-	const fileUrl = 'files/menu.docx' // Podaj właściwą ścieżkę do pliku
-	const downloadLink = document.getElementById('download-link')
-	const unavailableMessage = document.getElementById('file-unavailable')
+// Funkcja do wyświetlania linku lub treści z pliku aktualności
+async function fetchAndDisplayNews(newsFileUrl, newsContentDiv, newsUnavailableMessage) {
+	if (!newsContentDiv || !newsUnavailableMessage) return
 
-	if (!downloadLink || !unavailableMessage) {
-		console.error('Elementy download-link lub file-unavailable nie zostały znalezione.')
-		return
-	}
+	try {
+		const response = await fetch(newsFileUrl, { method: 'GET', cache: 'no-cache' })
+		if (!response.ok) {
+			newsUnavailableMessage.style.display = 'block'
+			newsContentDiv.style.display = 'none'
+			return
+		}
 
-	console.log('Sprawdzanie dostępności pliku...')
-	const fileExists = await checkFileExists(fileUrl)
-
-	if (fileExists) {
-		console.log('Plik dostępny. Wyświetlanie linku do pobrania.')
-		downloadLink.style.display = 'inline-block' // Pokaż link do pobrania
-		unavailableMessage.style.display = 'none' // Ukryj komunikat o niedostępności
-	} else {
-		console.log('Plik niedostępny. Wyświetlanie komunikatu o braku pliku.')
-		downloadLink.style.display = 'none' // Ukryj link do pobrania
-		unavailableMessage.style.display = 'block' // Pokaż komunikat o niedostępności
+		const arrayBuffer = await response.arrayBuffer()
+		const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+		newsContentDiv.innerHTML = `<table class="news-table"><tbody>${result.value}</tbody></table>`
+		newsUnavailableMessage.style.display = 'none'
+	} catch (error) {
+		console.error('Błąd podczas wczytywania pliku aktualności:', error)
+		newsUnavailableMessage.style.display = 'block'
 	}
 }
 
-// Wywołaj funkcję po załadowaniu strony
-window.addEventListener('DOMContentLoaded', validateFileAvailability)
+// Funkcja do wyświetlania linku lub treści z pliku menu
+async function fetchAndDisplayMenu(menuFileUrl, menuContentDiv, menuUnavailableMessage) {
+	if (!menuContentDiv || !menuUnavailableMessage) return
+
+	try {
+		const response = await fetch(menuFileUrl, { method: 'GET', cache: 'no-cache' })
+		if (!response.ok) {
+			menuUnavailableMessage.style.display = 'block'
+			menuContentDiv.style.display = 'none'
+			return
+		}
+
+		const arrayBuffer = await response.arrayBuffer()
+		const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
+		menuContentDiv.innerHTML = `<table class="menu-table"><tbody>${result.value}</tbody></table>`
+		menuUnavailableMessage.style.display = 'none'
+	} catch (error) {
+		console.error('Błąd podczas wczytywania pliku menu:', error)
+		menuUnavailableMessage.style.display = 'block'
+	}
+}
+
+// Funkcja do wyświetlania linku do pobrania dokumentów
+async function displayDocumentLink(documentFileUrl, documentsContent, documentsUnavailableMessage) {
+	if (!documentsContent || !documentsUnavailableMessage) return
+
+	try {
+		const fileExists = await checkFileExists(documentFileUrl)
+		if (fileExists) {
+			documentsContent.style.display = 'block'
+			documentsUnavailableMessage.style.display = 'none'
+		} else {
+			documentsContent.style.display = 'none'
+			documentsUnavailableMessage.style.display = 'block'
+		}
+	} catch (error) {
+		console.error('Błąd podczas sprawdzania pliku dokumentów:', error)
+		documentsContent.style.display = 'none'
+		documentsUnavailableMessage.style.display = 'block'
+	}
+}
+
+// Funkcja uruchamiana po załadowaniu strony
+function initialize() {
+	const newsFileUrl = 'files/aktualnosci.docx'
+	const menuFileUrl = 'files/menu.docx'
+	const documentFileUrl = 'files/dokumenty.docx'
+
+	const newsContentDiv = document.getElementById('news-content')
+	const newsUnavailableMessage = document.getElementById('news-file-unavailable')
+	fetchAndDisplayNews(newsFileUrl, newsContentDiv, newsUnavailableMessage)
+
+	const menuContentDiv = document.getElementById('menu-content')
+	const menuUnavailableMessage = document.getElementById('menu-file-unavailable')
+	fetchAndDisplayMenu(menuFileUrl, menuContentDiv, menuUnavailableMessage)
+
+	const documentsContent = document.getElementById('documents-content')
+	const documentsUnavailableMessage = document.getElementById('documents-unavailable')
+	displayDocumentLink(documentFileUrl, documentsContent, documentsUnavailableMessage)
+}
+
+// Wywołanie wszystkich funkcji po załadowaniu strony
+window.addEventListener('DOMContentLoaded', initialize)

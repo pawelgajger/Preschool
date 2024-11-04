@@ -58,15 +58,30 @@
 
     <main>
         <section class="fade-in-element">
-            <div class="why-us">
-                <div class="why-us-content">
-                    <img src="images/logo1.png" alt="Akademia Malucha" class="why-us-image">
-                    <h1>Dokumenty</h1>
-                    <img src="images/logo1.png" alt="Akademia Malucha" class="why-us-image">
+            <div class="text-container">
+                <div id="documents-section" class="documents-section">
+                    <h2>Dostępne dokumenty</h2>
+                    <div id="documents-content" class="documents-content">
+                        <a href="files/dokument.docx" download="Dokument_Akademia_Malucha.docx" class="download-link">
+                            <span class="document-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M6 2H14L20 8V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2ZM13 9H18.5L13 3.5V9ZM6 19H18V17H6V19ZM6 15H18V13H6V15ZM6 11H10V9H6V11Z" />
+                                </svg>
+                            </span>
+                            Pobierz dokument (.docx)
+                        </a>
+                    </div>
+                    <p id="documents-unavailable" style="display: none; color: red;">
+                        Dokumenty są chwilowo niedostępne. Proszę spróbować później.
+                    </p>
                 </div>
             </div>
         </section>
     </main>
+
+
 
     <footer>
         <p>&copy; 2024 Design by <a href="https://codewavesolutions.pl" target="_blank"
