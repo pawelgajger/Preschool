@@ -66,7 +66,6 @@ fetch('gallery.json')
             `
 			folderElement.onclick = () => openGallery(folder)
 			foldersContainer.appendChild(folderElement)
-			console.log(folder)
 		})
 	})
 
@@ -121,7 +120,9 @@ document.querySelectorAll('img').forEach(img => {
 // Funkcja sprawdzająca dostępność pliku
 async function checkFileExists(url) {
 	try {
-		const response = await fetch(url, { method: 'HEAD' })
+		console.log('Sprawdzanie dostępności pliku:', url) // Dodane debugowanie
+		const response = await fetch(url, { method: 'GET', cache: 'no-cache' })
+		console.log('Odpowiedź serwera:', response.status) // Dodane debugowanie
 		return response.ok // Zwraca true, jeśli plik istnieje
 	} catch (error) {
 		console.error('Błąd podczas sprawdzania pliku:', error)
@@ -131,16 +132,24 @@ async function checkFileExists(url) {
 
 // Funkcja do wyświetlenia odpowiedniego komunikatu lub linku
 async function validateFileAvailability() {
-	const fileUrl = '/files/menu.docx' // Podaj właściwą ścieżkę do pliku
+	const fileUrl = 'files/menu.docx' // Podaj właściwą ścieżkę do pliku
 	const downloadLink = document.getElementById('download-link')
 	const unavailableMessage = document.getElementById('file-unavailable')
 
+	if (!downloadLink || !unavailableMessage) {
+		console.error('Elementy download-link lub file-unavailable nie zostały znalezione.')
+		return
+	}
+
+	console.log('Sprawdzanie dostępności pliku...')
 	const fileExists = await checkFileExists(fileUrl)
 
 	if (fileExists) {
+		console.log('Plik dostępny. Wyświetlanie linku do pobrania.')
 		downloadLink.style.display = 'inline-block' // Pokaż link do pobrania
 		unavailableMessage.style.display = 'none' // Ukryj komunikat o niedostępności
 	} else {
+		console.log('Plik niedostępny. Wyświetlanie komunikatu o braku pliku.')
 		downloadLink.style.display = 'none' // Ukryj link do pobrania
 		unavailableMessage.style.display = 'block' // Pokaż komunikat o niedostępności
 	}
