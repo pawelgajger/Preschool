@@ -66,6 +66,7 @@ fetch('gallery.json')
             `
 			folderElement.onclick = () => openGallery(folder)
 			foldersContainer.appendChild(folderElement)
+			console.log(folder)
 		})
 	})
 
@@ -116,3 +117,27 @@ document.querySelectorAll('img').forEach(img => {
 		e.preventDefault()
 	})
 })
+
+async function fetchDocx() {
+	try {
+		console.log('Rozpoczynam pobieranie pliku...')
+		const response = await fetch('/files/menu.docx')
+		if (!response.ok) throw new Error('Nie można wczytać pliku menu.')
+		console.log('Plik został pomyślnie pobrany.')
+
+		const arrayBuffer = await response.arrayBuffer()
+		console.log('Pobrano dane w formie ArrayBuffer.')
+
+		mammoth
+			.convertToHtml({ arrayBuffer: arrayBuffer })
+			.then(result => {
+				console.log('Konwersja zakończona sukcesem.')
+				displayMenu(result.value)
+			})
+			.catch(error => {
+				console.error('Błąd konwersji:', error)
+			})
+	} catch (error) {
+		console.error('Błąd wczytywania pliku:', error)
+	}
+}
