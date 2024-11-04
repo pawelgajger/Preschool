@@ -118,26 +118,33 @@ document.querySelectorAll('img').forEach(img => {
 	})
 })
 
-async function fetchDocx() {
+// Funkcja sprawdzająca dostępność pliku
+async function checkFileExists(url) {
 	try {
-		console.log('Rozpoczynam pobieranie pliku...')
-		const response = await fetch('/files/menu.docx')
-		if (!response.ok) throw new Error('Nie można wczytać pliku menu.')
-		console.log('Plik został pomyślnie pobrany.')
-
-		const arrayBuffer = await response.arrayBuffer()
-		console.log('Pobrano dane w formie ArrayBuffer.')
-
-		mammoth
-			.convertToHtml({ arrayBuffer: arrayBuffer })
-			.then(result => {
-				console.log('Konwersja zakończona sukcesem.')
-				displayMenu(result.value)
-			})
-			.catch(error => {
-				console.error('Błąd konwersji:', error)
-			})
+		const response = await fetch(url, { method: 'HEAD' })
+		return response.ok // Zwraca true, jeśli plik istnieje
 	} catch (error) {
-		console.error('Błąd wczytywania pliku:', error)
+		console.error('Błąd podczas sprawdzania pliku:', error)
+		return false // Zwraca false, jeśli wystąpił błąd
 	}
 }
+
+// Funkcja do wyświetlenia odpowiedniego komunikatu lub linku
+async function validateFileAvailability() {
+	const fileUrl = '/files/menu.docx' // Podaj właściwą ścieżkę do pliku
+	const downloadLink = document.getElementById('download-link')
+	const unavailableMessage = document.getElementById('file-unavailable')
+
+	const fileExists = await checkFileExists(fileUrl)
+
+	if (fileExists) {
+		downloadLink.style.display = 'inline-block' // Pokaż link do pobrania
+		unavailableMessage.style.display = 'none' // Ukryj komunikat o niedostępności
+	} else {
+		downloadLink.style.display = 'none' // Ukryj link do pobrania
+		unavailableMessage.style.display = 'block' // Pokaż komunikat o niedostępności
+	}
+}
+
+// Wywołaj funkcję po załadowaniu strony
+window.addEventListener('DOMContentLoaded', validateFileAvailability)

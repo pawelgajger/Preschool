@@ -573,6 +573,9 @@ section.location {
 	border: 2px solid #ffffff; /* Biała ramka */
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Cień tekstu */
 	text-align: center; /* Wyśrodkowanie tekstu */
+
+	max-width: 1200px; /* Maksymalna szerokość kontenera */
+	margin: 0 auto; /* Wyśrodkowanie na stronie */
 }
 
 .text-container p {
