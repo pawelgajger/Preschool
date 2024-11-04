@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "Wakacje",
+			"images": ["photo1.jpg", "photo2.jpg", "photo3.jpg"]
+		},
+		{
+			"name": "Urodziny",
+			"images": ["birthday1.jpg"]
+		}
+	]
+}
