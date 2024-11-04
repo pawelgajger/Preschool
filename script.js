@@ -98,3 +98,21 @@ function closeGallery() {
 	document.getElementById('gallery-view').style.display = 'none'
 	document.getElementById('folders-container').style.display = 'flex'
 }
+
+// Wyłączenie kliknięcia prawym przyciskiem myszy
+document.addEventListener('contextmenu', function (e) {
+	e.preventDefault()
+})
+
+document.addEventListener('keydown', function (e) {
+	// Blokowanie "Ctrl + C", "Ctrl + X", "Ctrl + U" i "Ctrl + S"
+	if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's')) {
+		e.preventDefault()
+	}
+})
+
+document.querySelectorAll('img').forEach(img => {
+	img.addEventListener('dragstart', function (e) {
+		e.preventDefault()
+	})
+})

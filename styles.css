@@ -798,3 +798,17 @@ button:hover {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	margin: 0 auto; /* Wypośrodkowanie mapy */
 }
+
+/* Wyłączenie zaznaczania tekstu */
+body {
+	-webkit-user-select: none; /* Chrome, Safari, Opera */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Standard */
+}
+
+/* Wyłączenie przeciągania obrazów */
+img {
+	-webkit-user-drag: none; /* Chrome, Safari, Opera */
+	user-drag: none;
+}
