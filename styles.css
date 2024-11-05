@@ -886,3 +886,30 @@ img {
 	vertical-align: middle; /* Wyrównanie ikony do środka */
 	color: #fff; /* Kolor ikony */
 }
+
+/* Stylizacja kontenera z iframe */
+.iframe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Dodaj trochę przestrzeni wokół */
+}
+
+/* Stylizacja iframe */
+iframe {
+    width: 100%; /* Szerokość 80% kontenera */
+    height: 800px; /* Wysokość dostosowana */
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Dodaj cień dla estetyki */
+    border-radius: 10px; /* Opcjonalne zaokrąglenie */
+}
+
+#pdf-frame {
+	width: 100%; /* Szerokość 80% dostępnej przestrzeni */
+	height: 800px; /* Wysokość na stałe, np. 800px */
+	border: none;
+	margin: 0 auto; /* Wyśrodkowanie */
+	display: block; /* Aby wyśrodkowanie działało */
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Opcjonalnie cień */
+	border-radius: 10px; /* Opcjonalnie zaokrąglone rogi */
+}

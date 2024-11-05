@@ -11,12 +11,11 @@ window.addEventListener('scroll', function () {
 	})
 })
 
-// Zmienna przechowująca obrazy z bieżącego folderu, indeks bieżącego obrazu i nazwę folderu
+// Funkcje do pełnoekranowego wyświetlania obrazów i nawigacji w galerii
 let currentFolder = []
 let currentIndex = 0
 let currentFolderName = ''
 
-// Funkcja do otwierania pełnoekranowego widoku z możliwością nawigacji
 function openFullscreen(imageUrl, imagesArray = [], index = 0, folderName = '') {
 	currentFolder = imagesArray
 	currentIndex = index
@@ -25,191 +24,162 @@ function openFullscreen(imageUrl, imagesArray = [], index = 0, folderName = '') 
 	const fullscreenView = document.getElementById('fullscreen-view')
 	const fullscreenImg = document.getElementById('fullscreen-img')
 
-	fullscreenImg.src = imageUrl
-	fullscreenView.style.display = 'flex'
-	document.body.classList.add('fullscreen-active')
-	document.querySelector('footer').style.display = 'none' // Ukrycie stopki
+	if (fullscreenImg && fullscreenView) {
+		fullscreenImg.src = imageUrl
+		fullscreenView.style.display = 'flex'
+		document.body.classList.add('fullscreen-active')
+		document.querySelector('footer').style.display = 'none'
+	}
 }
 
-// Funkcja zamykająca pełnoekranowy widok
 function closeFullscreen() {
 	const fullscreenView = document.getElementById('fullscreen-view')
-	fullscreenView.style.display = 'none'
-	document.body.classList.remove('fullscreen-active')
-	document.querySelector('footer').style.display = 'block' // Przywrócenie stopki
+	if (fullscreenView) {
+		fullscreenView.style.display = 'none'
+		document.body.classList.remove('fullscreen-active')
+		document.querySelector('footer').style.display = 'block'
+	}
 }
 
-// Funkcje do zmiany zdjęć
 function showNextImage(event) {
-	event.stopPropagation() // Zatrzymanie eventu, aby nie zamknąć pełnoekranowego widoku
+	event.stopPropagation()
 	currentIndex = (currentIndex + 1) % currentFolder.length
 	document.getElementById('fullscreen-img').src = `images/${currentFolderName}/${currentFolder[currentIndex]}`
 }
 
 function showPreviousImage(event) {
-	event.stopPropagation() // Zatrzymanie eventu, aby nie zamknąć pełnoekranowego widoku
+	event.stopPropagation()
 	currentIndex = (currentIndex - 1 + currentFolder.length) % currentFolder.length
 	document.getElementById('fullscreen-img').src = `images/${currentFolderName}/${currentFolder[currentIndex]}`
 }
 
-// Ładowanie folderów z pliku JSON
+// Funkcja do ładowania folderów z pliku JSON do galerii
 fetch('gallery.json')
 	.then(response => response.json())
 	.then(data => {
 		const foldersContainer = document.getElementById('folders-container')
-		data.folders.forEach(folder => {
-			const folderElement = document.createElement('div')
-			folderElement.className = 'folder-icon'
-			folderElement.innerHTML = `
-                <div class="folder-image">📁</div>
-                <p>${folder.name}</p>
-            `
-			folderElement.onclick = () => openGallery(folder)
-			foldersContainer.appendChild(folderElement)
-		})
+		if (foldersContainer) {
+			data.folders.forEach(folder => {
+				const folderElement = document.createElement('div')
+				folderElement.className = 'folder-icon'
+				folderElement.innerHTML = `<div class="folder-image">📁</div><p>${folder.name}</p>`
+				folderElement.onclick = () => openGallery(folder)
+				foldersContainer.appendChild(folderElement)
+			})
+		}
 	})
+	.catch(error => console.error('Błąd podczas ładowania galerii:', error))
 
 function openGallery(folder) {
 	const galleryView = document.getElementById('gallery-view')
 	const galleryContainer = document.getElementById('gallery')
 	const folderName = document.getElementById('folder-name')
 
-	// Ustaw nazwę folderu i wyczyść poprzednie obrazy
-	folderName.innerText = folder.name
-	galleryContainer.innerHTML = ''
-
-	// Załaduj obrazy z wybranego folderu
-	folder.images.forEach((image, index) => {
-		const imgElement = document.createElement('img')
-		imgElement.src = `images/${folder.name}/${image}`
-		imgElement.className = 'gallery-item'
-		imgElement.alt = folder.name
-		imgElement.onclick = () => openFullscreen(imgElement.src, folder.images, index, folder.name)
-		galleryContainer.appendChild(imgElement)
-	})
-
-	// Pokaż galerię i ukryj foldery
-	document.getElementById('folders-container').style.display = 'none'
-	galleryView.style.display = 'block'
+	if (galleryContainer && galleryView && folderName) {
+		folderName.innerText = folder.name
+		galleryContainer.innerHTML = ''
+		folder.images.forEach((image, index) => {
+			const imgElement = document.createElement('img')
+			imgElement.src = `images/${folder.name}/${image}`
+			imgElement.className = 'gallery-item'
+			imgElement.alt = folder.name
+			imgElement.onclick = () => openFullscreen(imgElement.src, folder.images, index, folder.name)
+			galleryContainer.appendChild(imgElement)
+		})
+		document.getElementById('folders-container').style.display = 'none'
+		galleryView.style.display = 'block'
+	}
 }
 
-// Funkcja do powrotu do widoku folderów
 function closeGallery() {
 	document.getElementById('gallery-view').style.display = 'none'
 	document.getElementById('folders-container').style.display = 'flex'
 }
 
 // Wyłączenie kliknięcia prawym przyciskiem myszy
-document.addEventListener('contextmenu', function (e) {
-	e.preventDefault()
+document.addEventListener('contextmenu', e => e.preventDefault())
+document.addEventListener('keydown', e => {
+	if (e.ctrlKey && ['c', 'x', 'u', 's'].includes(e.key)) e.preventDefault()
 })
-
-document.addEventListener('keydown', function (e) {
-	// Blokowanie "Ctrl + C", "Ctrl + X", "Ctrl + U" i "Ctrl + S"
-	if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'u' || e.key === 's')) {
-		e.preventDefault()
-	}
-})
-
 document.querySelectorAll('img').forEach(img => {
-	img.addEventListener('dragstart', function (e) {
-		e.preventDefault()
-	})
+	img.addEventListener('dragstart', e => e.preventDefault())
 })
 
 // Funkcja sprawdzająca dostępność pliku
 async function checkFileExists(url) {
 	try {
 		const response = await fetch(url, { method: 'HEAD' })
-		return response.ok // Zwraca true, jeśli plik istnieje
+		return response.ok
 	} catch (error) {
 		console.error('Błąd podczas sprawdzania pliku:', error)
-		return false // Zwraca false, jeśli wystąpił błąd
+		return false
 	}
 }
 
-// Funkcja do wyświetlania linku lub treści z pliku aktualności
-async function fetchAndDisplayNews(newsFileUrl, newsContentDiv, newsUnavailableMessage) {
-	if (!newsContentDiv || !newsUnavailableMessage) return
+// Funkcja do sprawdzania i wyświetlania PDF dla Menu
+async function checkAndDisplayMenuPDF() {
+	const pdfUrl = 'files/menu.pdf' // Ścieżka do pliku PDF dla menu
+	const pdfFrame = document.getElementById('pdf-frame')
+	const unavailableMessage = document.getElementById('menu-file-unavailable')
+
+	if (!pdfFrame || !unavailableMessage) return
 
 	try {
-		const response = await fetch(newsFileUrl, { method: 'GET', cache: 'no-cache' })
-		if (!response.ok) {
-			newsUnavailableMessage.style.display = 'block'
-			newsContentDiv.style.display = 'none'
-			return
-		}
-
-		const arrayBuffer = await response.arrayBuffer()
-		const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
-		newsContentDiv.innerHTML = `<table class="news-table"><tbody>${result.value}</tbody></table>`
-		newsUnavailableMessage.style.display = 'none'
-	} catch (error) {
-		console.error('Błąd podczas wczytywania pliku aktualności:', error)
-		newsUnavailableMessage.style.display = 'block'
-	}
-}
-
-// Funkcja do wyświetlania linku lub treści z pliku menu
-async function fetchAndDisplayMenu(menuFileUrl, menuContentDiv, menuUnavailableMessage) {
-	if (!menuContentDiv || !menuUnavailableMessage) return
-
-	try {
-		const response = await fetch(menuFileUrl, { method: 'GET', cache: 'no-cache' })
-		if (!response.ok) {
-			menuUnavailableMessage.style.display = 'block'
-			menuContentDiv.style.display = 'none'
-			return
-		}
-
-		const arrayBuffer = await response.arrayBuffer()
-		const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
-		menuContentDiv.innerHTML = `<table class="menu-table"><tbody>${result.value}</tbody></table>`
-		menuUnavailableMessage.style.display = 'none'
-	} catch (error) {
-		console.error('Błąd podczas wczytywania pliku menu:', error)
-		menuUnavailableMessage.style.display = 'block'
-	}
-}
-
-// Funkcja do wyświetlania linku do pobrania dokumentów
-async function displayDocumentLink(documentFileUrl, documentsContent, documentsUnavailableMessage) {
-	if (!documentsContent || !documentsUnavailableMessage) return
-
-	try {
-		const fileExists = await checkFileExists(documentFileUrl)
-		if (fileExists) {
-			documentsContent.style.display = 'block'
-			documentsUnavailableMessage.style.display = 'none'
+		const response = await fetch(pdfUrl, { method: 'HEAD' })
+		if (response.ok) {
+			pdfFrame.src = pdfUrl
+			pdfFrame.style.display = 'block'
+			unavailableMessage.style.display = 'none'
 		} else {
-			documentsContent.style.display = 'none'
-			documentsUnavailableMessage.style.display = 'block'
+			pdfFrame.style.display = 'none'
+			unavailableMessage.style.display = 'block'
 		}
 	} catch (error) {
-		console.error('Błąd podczas sprawdzania pliku dokumentów:', error)
-		documentsContent.style.display = 'none'
-		documentsUnavailableMessage.style.display = 'block'
+		console.error('Błąd podczas sprawdzania pliku PDF menu:', error)
+		pdfFrame.style.display = 'none'
+		unavailableMessage.style.display = 'block'
 	}
 }
 
-// Funkcja uruchamiana po załadowaniu strony
-function initialize() {
-	const newsFileUrl = 'files/aktualnosci.docx'
-	const menuFileUrl = 'files/menu.docx'
-	const documentFileUrl = 'files/dokumenty.docx'
+// Funkcja do sprawdzania i wyświetlania PDF dla Wydarzeń
+async function checkAndDisplayEventsPDF() {
+	const pdfUrl = 'files/wydarzenia.pdf' // Ścieżka do pliku PDF dla wydarzeń
+	const pdfFrame = document.getElementById('pdf-frame')
+	const unavailableMessage = document.getElementById('news-file-unavailable')
 
-	const newsContentDiv = document.getElementById('news-content')
-	const newsUnavailableMessage = document.getElementById('news-file-unavailable')
-	fetchAndDisplayNews(newsFileUrl, newsContentDiv, newsUnavailableMessage)
+	if (!pdfFrame || !unavailableMessage) return
 
-	const menuContentDiv = document.getElementById('menu-content')
-	const menuUnavailableMessage = document.getElementById('menu-file-unavailable')
-	fetchAndDisplayMenu(menuFileUrl, menuContentDiv, menuUnavailableMessage)
-
-	const documentsContent = document.getElementById('documents-content')
-	const documentsUnavailableMessage = document.getElementById('documents-unavailable')
-	displayDocumentLink(documentFileUrl, documentsContent, documentsUnavailableMessage)
+	try {
+		const response = await fetch(pdfUrl, { method: 'HEAD' })
+		if (response.ok) {
+			pdfFrame.src = pdfUrl
+			pdfFrame.style.display = 'block'
+			unavailableMessage.style.display = 'none'
+		} else {
+			pdfFrame.style.display = 'none'
+			unavailableMessage.style.display = 'block'
+		}
+	} catch (error) {
+		console.error('Błąd podczas sprawdzania pliku PDF wydarzeń:', error)
+		pdfFrame.style.display = 'none'
+		unavailableMessage.style.display = 'block'
+	}
 }
 
-// Wywołanie wszystkich funkcji po załadowaniu strony
-window.addEventListener('DOMContentLoaded', initialize)
+// Funkcje uruchamiane dla odpowiednich stron
+function initializeMenuPage() {
+	checkAndDisplayMenuPDF()
+}
+
+function initializeEventsPage() {
+	checkAndDisplayEventsPDF()
+}
+
+// Event listener dla każdej strony
+document.addEventListener('DOMContentLoaded', () => {
+	if (document.body.classList.contains('menu-page')) {
+		initializeMenuPage()
+	} else if (document.body.classList.contains('events-page')) {
+		initializeEventsPage()
+	}
+})

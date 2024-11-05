@@ -29,10 +29,10 @@
           "openingHours": "Mo-Fr 07:00-17:00"
         }
         </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
 </head>
 
-<body>
+<body class="menu-page">
 
     <nav class="navbar">
         <ul>
@@ -60,17 +60,16 @@
     <main>
         <section class="fade-in-element">
             <div class="text-mainpage">
-                <div class="text-container">
-                    <div id="menu-section" class="menu-section">
-                        <h2>Menu</h2>
-                        <div id="menu-content" class="menu-content">
-                        </div>
-                        <p id="menu-file-unavailable" style="display: none; color: red;">
-                            Menu jest chwilowo niedostępne. Proszę spróbować później.
-                        </p>
-                    </div>
-
+                <h2>Menu</h2>
+                <div class="iframe-container">
+                    <iframe id="pdf-frame" src="files/menu.pdf#toolbar=0&navpanes=0&view=FitH"
+                        style="border: none; width: 100%; height: 600px;"></iframe>
                 </div>
+                <p id="menu-file-unavailable" style="display: none; color: red;">
+                    Menu jest chwilowo niedostępne. Proszę spróbować później.
+                </p>
+            </div>
+            </div>
         </section>
     </main>
 
