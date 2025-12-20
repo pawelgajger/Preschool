@@ -183,3 +183,52 @@ document.addEventListener('DOMContentLoaded', () => {
 		initializeEventsPage()
 	}
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+	// Obsługa hamburger menu
+	const hamburger = document.querySelector('.hamburger-menu')
+	const navbarMenu = document.querySelector('.navbar ul')
+
+	if (hamburger && navbarMenu) {
+		hamburger.addEventListener('click', () => {
+			navbarMenu.classList.toggle('show')
+			hamburger.classList.toggle('active')
+		})
+	}
+
+	// Obsługa akordeonu dla dropdown w widoku mobilnym
+	const accordionItems = document.querySelectorAll('.accordion-item')
+
+	accordionItems.forEach(item => {
+		// Znajdź element przycisku toggle wewnątrz bieżącego elementu akordeonu
+		const toggle = item.querySelector('.menu-toggle')
+
+		if (toggle) {
+			// Dodaj listener do przycisku toggle
+			toggle.addEventListener('click', e => {
+				e.preventDefault()
+
+				// Zamknij wszystkie inne aktywne dropdowny
+				accordionItems.forEach(i => {
+					if (i !== item) i.classList.remove('active')
+				})
+
+				// Przełącz aktywność klikniętego elementu
+				item.classList.toggle('active')
+			})
+		} else {
+			console.warn('Nie znaleziono przycisku toggle dla elementu:', item)
+		}
+	})
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+	const iframe = document.getElementById('iframe')
+	iframe.addEventListener('load', () => {
+		console.log('Iframe loaded successfully')
+	})
+	iframe.addEventListener('error', () => {
+		console.log('Error loading iframe content')
+		document.getElementById('menu-file-unavailable').style.display = 'block'
+	})
+})

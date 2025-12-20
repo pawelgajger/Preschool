@@ -35,6 +35,22 @@ p {
 	color: #ffffff; /* Zmieniono kolor na ciemnoszary */
 }
 
+/* Efekt fadeIn */
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.fade-in-element {
+	opacity: 0;
+	animation: fadeIn 2s ease-in forwards;
+}
+
 /* Pasek nawigacyjny */
 .navbar {
 	padding: 1rem;
@@ -42,17 +58,18 @@ p {
 }
 
 .navbar ul {
+	display: flex;
+	justify-content: space-around;
 	list-style-type: none;
-	margin: 0;
 	padding: 0;
 }
 
+/* Elementy nawigacyjne - margines i pozycjonowanie */
 .navbar ul li {
-	margin: 0 15px;
+	margin: 0 10px;
 	display: inline-block;
-	position: relative; /* Pozwala na pozycjonowanie dropdownów */
-	margin: 0 15px;
-	z-index: 9999; /* Zapewnia, że główne elementy nawigacyjne są wyżej w hierarchii */
+	position: relative;
+	z-index: 9999;
 }
 
 /* Główne linki w menu */
@@ -63,14 +80,11 @@ p {
 	padding: 10px 15px;
 	border: 2px solid white;
 	border-radius: 5px;
-	background: linear-gradient(135deg, #fddb92 0%, #d1a54d 100%); /* Gradient w odcieniach żółtego */
-	transition: background-color 0.3s ease;
-	width: 150px; /* Ustawienie stałej szerokości */
-	display: inline-block; /* Aby szerokość miała zastosowanie */
-	text-align: center; /* Wyśrodkowanie tekstu */
-	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Większy cień przy hover */
-	transform: translateY(-2px); /* Lekki efekt podnoszenia */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Dodanie lekkiego cienia */
+	background: linear-gradient(135deg, #fddb92 0%, #d1a54d 100%);
+	width: 140px;
+	display: inline-block;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -78,21 +92,8 @@ p {
 .navbar ul li a:hover {
 	background-color: white;
 	color: #ffdab9;
-	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Większy cień przy hover */
-	transform: translateY(-2px); /* Lekki efekt podnoszenia */
-}
-
-/* Dropdown - przyciski takie same jak w navbar */
-.navbar ul .dropdown li a {
-	padding: 10px 15px;
-	text-align: center;
-	color: white;
-	background-color: lightblue; /* Nowy kolor tła dla przycisków */
-	border: 2px solid white;
-	border-radius: 5px;
-	display: block;
-	transition: background-color 0.3s ease;
-	width: 150px; /* Ustawienie stałej szerokości, takiej samej jak w navbarze */
+	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+	transform: translateY(-2px);
 }
 
 /* Hover dla linków w dropdown */
@@ -105,14 +106,20 @@ p {
 .navbar ul .dropdown {
 	display: none;
 	position: absolute;
-	top: 100%; /* Ustaw dropdowny dokładnie pod głównymi przyciskami */
-	left: 0;
+	top: 100%; /* Ustaw dropdown dokładnie pod przyciskiem */
+	left: 50%; /* Przesuń dropdown do środka kontenera */
+	transform: translateX(-50%); /* Wyrównaj dropdown względem środka */
 	background: linear-gradient(135deg, #2193b0, #6dd5ed);
-	/* background-color: #ffdab9; */
-	padding: 10px 0; /* Większe odstępy wewnątrz dropdownu */
-	min-width: 180px; /* Szerokość dropdownu */
-	z-index: 9999; /* Bardzo wysoki z-index, by dropdown nie był ukryty */
-	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Dodaj cień, aby dropdown był bardziej widoczny */
+	padding: 10px 0;
+	min-width: 180px;
+	z-index: 999;
+	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Dodaj styl, aby dropdown był widoczny na hover lub po aktywacji */
+.navbar ul li:hover .dropdown,
+.navbar ul li:focus-within .dropdown {
+	display: block;
 }
 
 /* Pokaż dropdown po najechaniu */
@@ -125,7 +132,447 @@ p {
 	display: inline-block;
 	position: relative;
 	margin: 0 15px;
-	z-index: 9999; /* Z-index dla głównych przycisków */
+	z-index: 9999;
+}
+
+/* Dropdown - przyciski takie same jak w navbar */
+.navbar ul .dropdown li a {
+	padding: 10px 15px;
+	text-align: center;
+	color: white;
+	background-color: lightblue;
+	border: 2px solid white;
+	border-radius: 5px;
+	display: block;
+	transition: background-color 0.3s ease;
+	width: 150px;
+}
+
+/* Zmniejszenie odstępów między elementami menu na dużych ekranach */
+@media (min-width: 1200px) {
+	.navbar ul {
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.navbar ul li a {
+		width: 130px;
+		padding: 8px 12px;
+	}
+	.why-us-image {
+		width: 180px; /* Zwiększenie wielkości logo */
+	}
+}
+
+/* Ustawienia dla średnich ekranów */
+@media (max-width: 1199px) and (min-width: 768px) {
+	.navbar ul {
+		gap: 5px;
+	}
+
+	.navbar ul li a {
+		width: 140px;
+		padding: 8px 10px;
+	}
+}
+
+/* Responsive - Na mniejszych ekranach */
+@media (max-width: 1024px) {
+	.gallery-item {
+		flex-basis: calc(50% - 20px); /* Przejście na 2 kolumny */
+	}
+
+	.text-mainpage {
+		font-size: 1.2rem; /* Zmniejszenie rozmiaru tekstu */
+	}
+
+	.navbar ul li a {
+		padding: 10px 15px; /* Zmniejszenie paddingu w menu nawigacji */
+		font-size: 0.9rem; /* Zmniejszenie rozmiaru czcionki */
+	}
+}
+
+/* Ukryj menu na urządzeniach mobilnych i pokaż hamburger menu */
+@media (max-width: 768px) {
+	.navbar ul {
+		display: none; /* Ukryj całe menu */
+		flex-direction: column;
+		background-color: #2193b0;
+		position: absolute;
+		top: 60px;
+		left: 10px;
+		right: 10px;
+		padding: 10px 0;
+		box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+		z-index: 1;
+		border-radius: 8px;
+	}
+
+	.navbar ul.show {
+		display: flex; /* Pokaż menu po kliknięciu */
+	}
+
+	.navbar ul li {
+		width: 100%;
+		margin: 5px 0;
+	}
+
+	.navbar ul li a {
+		padding: 10px 12px; /* Zmniejsz wysokość przycisków */
+		display: block;
+		text-align: center;
+		width: auto; /* Ustal auto dla szerokości */
+		max-width: 90%; /* Ogranicz szerokość do 90% ekranu */
+		margin: 0 auto; /* Wycentruj przyciski */
+		color: white;
+		background: linear-gradient(135deg, #fddb92 0%, #d1a54d 100%);
+		border-radius: 5px;
+		font-size: 14px; /* Zmniejsz czcionkę, aby lepiej dopasować */
+	}
+
+	.dropdown {
+		position: static;
+		width: 100%;
+		margin-top: 5px;
+		display: none; /* Ukryj dropdown na starcie */
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease;
+	}
+
+	.dropdown li {
+		margin-bottom: 10px; /* Dodaj margines dla lepszej separacji */
+	}
+
+	.dropdown li a {
+		padding: 8px 10px;
+		font-size: 13px; /* Zmniejsz czcionkę dla elementów dropdown */
+		max-width: 90%; /* Ogranicz szerokość dropdownu */
+		margin: 0 auto; /* Wycentruj dropdown */
+	}
+
+	.accordion-item.active .dropdown {
+		display: block;
+		z-index: 1; /* Ustaw wyższy priorytet */
+		position: relative;
+		max-height: 500px; /* Ustaw na wystarczającą wysokość, aby zmieścić całą zawartość */
+	}
+
+	.hamburger-menu {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		width: 30px;
+		height: 30px;
+		cursor: pointer;
+		position: absolute;
+		top: 15px;
+		left: 15px;
+		z-index: 10000;
+	}
+
+	.hamburger-menu span {
+		display: block;
+		width: 100%;
+		height: 3px;
+		background-color: white;
+		transition: all 0.3s ease;
+	}
+
+	/* Animacja hamburger menu po kliknięciu */
+	.hamburger-menu.active span:nth-child(1) {
+		transform: rotate(45deg) translate(5px, 5px);
+	}
+
+	.hamburger-menu.active span:nth-child(2) {
+		opacity: 0;
+	}
+
+	.hamburger-menu.active span:nth-child(3) {
+		transform: rotate(-45deg) translate(5px, -5px);
+	}
+
+	.why-us {
+		padding: 15px; /* Mniejszy padding na mobile */
+		font-size: 18px; /* Zmniejszony rozmiar czcionki dla tekstu */
+	}
+
+	.why-us-content h2 {
+		font-size: 1.6rem;
+		padding: 5px;
+	}
+
+	.why-us-image {
+		width: 70px; /* Jeszcze mniejszy rozmiar na bardzo małych ekranach */
+		margin: 5px 0;
+	}
+
+	.why-us-content {
+		flex-direction: column; /* Ustaw logo i nagłówek w pionie na mniejszych ekranach */
+	}
+
+	.why-us-image-left,
+	.why-us-image-right {
+		width: 80px; /* Zmniejsz logo na mniejszych ekranach */
+	}
+
+	.why-us-content h2 {
+		font-size: 1.6rem; /* Zmniejsz rozmiar tekstu na mniejszych ekranach */
+		margin: 10px 0; /* Usuń boczne marginesy */
+	}
+
+	.gallery {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px; /* Zmniejszone odstępy między miniaturami */
+		padding: 10px;
+	}
+
+	.gallery-item {
+		width: 30%; /* Stała szerokość miniatury (trzy miniatury w rzędzie) */
+		height: 90px; /* Stała wysokość miniatury */
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+		transition: transform 0.3s ease;
+	}
+
+	.gallery-item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Dopasowanie obrazka do kontenera */
+		border-radius: 8px;
+	}
+
+	.gallery-item:hover {
+		transform: scale(1.05);
+	}
+
+	.text-mainpage {
+		font-size: 1rem;
+		padding: 10px; /* Większe odstępy wewnętrzne */
+		text-align: center;
+	}
+
+	.large-section {
+		padding: 20px; /* Zmniejszenie paddingu sekcji */
+	}
+
+	/* Zmniejszenie paddingu i marginesów w głównych sekcjach */
+	.why-us,
+	.text-container-mainpage,
+	.container {
+		padding: 5px; /* Mniejszy padding dla sekcji */
+		margin: 10px 5px;
+	}
+
+	/* Boxy - zmniejszenie rozmiaru i marginesów */
+	.box {
+		padding: 10px;
+		margin: 5px 0;
+		font-size: 14px;
+	}
+
+	.text-container-mainpage {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	/* Nagłówek w sekcji .why-us */
+	.why-us h2 {
+		font-size: 1.4rem;
+		padding: 0;
+	}
+
+	.ztl-widget-circle {
+		margin: 0 auto; /* Wyśrodkowanie samych ikon */
+	}
+
+	.ztl-widget-circle-title {
+		font-size: 12px;
+	}
+
+	.text-mainpage p {
+		font-size: 13px;
+		line-height: 1.3;
+		margin: 5px 0;
+	}
+
+	/* Nawigacja - wyrównanie i poprawki w dropdown */
+	.navbar ul li {
+		margin: 5px 0;
+	}
+
+	.dropdown {
+		position: absolute;
+		width: 100%;
+		margin-top: 5px;
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center; /* Wyśrodkowanie w pionie, jeśli zajdzie potrzeba */
+		text-align: center;
+		width: 100%; /* Upewnienie się, że kontener zajmuje całą szerokość */
+	}
+
+	/* Wyśrodkowanie każdego elementu .item wewnątrz kontenera */
+	.item {
+		display: flex;
+		flex-direction: column;
+		align-items: center; /* Wyśrodkowanie wewnątrz kontenera */
+		justify-content: center;
+		margin: 15px 0; /* Odstęp między ikonami */
+		text-align: center;
+	}
+
+	.ztl-widget-circle {
+		margin: 0 auto; /* Wyśrodkowanie samych ikon */
+	}
+
+	footer {
+		font-size: 12px;
+		padding: 10px;
+	}
+
+	/* Ustawienia kontenera */
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		width: 100%;
+	}
+
+	/* Wyśrodkowanie elementów */
+	.item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%; /* Upewnienie się, że element zajmuje pełną szerokość kontenera */
+		margin: 15px 0; /* Odstęp między ikonami */
+		text-align: center;
+	}
+
+	/* Stylizacja samej ikony, aby była wyśrodkowana */
+	.ztl-widget-circle {
+		display: flex;
+		justify-content: center; /* Wyśrodkowanie ikony w poziomie */
+		align-items: center; /* Wyśrodkowanie ikony w pionie */
+		width: 80px; /* Dopasuj rozmiar do potrzeb */
+		height: 80px;
+		margin: 0 auto; /* Wyśrodkowanie ikony */
+		border-radius: 50%;
+	}
+
+	/* Stylizacja tytułu pod ikoną */
+	.ztl-widget-circle-title {
+		font-size: 14px;
+		text-align: center;
+		margin-top: 5px;
+	}
+
+	.iframe-container {
+		padding: 0;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.iframe-container iframe {
+		width: 100%; /* Ustaw pełną szerokość na mobilnych */
+		height: 500px; /* Dopasowana wysokość na mobilnych */
+		display: block;
+		margin: 0;
+		border: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.gallery-item {
+		flex-basis: 100%; /* Przejście na 1 kolumnę */
+	}
+
+	.navbar ul {
+		flex-direction: column;
+		padding: 0;
+	}
+
+	.navbar ul li {
+		margin: 5px 0;
+	}
+
+	.main-text {
+		font-size: 20px;
+		padding: 10px;
+	}
+
+	.text-container {
+		padding: 10px;
+		font-size: 14px;
+	}
+
+	.box {
+		padding: 10px;
+		font-size: 13px;
+		box-shadow: none; /* Usunięcie cieni na mniejszych ekranach */
+	}
+
+	.logo-container img {
+		width: 80px; /* Zmniejsz logo dla telefonów */
+	}
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		text-align: center;
+	}
+
+	.ztl-widget-circle {
+		width: 80px;
+		height: 80px;
+	}
+
+	.ztl-widget-circle img {
+		max-width: 70%;
+	}
+
+	.ztl-widget-circle-title {
+		font-size: 14px;
+	}
+
+	footer {
+		font-size: 12px; /* Zmniejszenie czcionki w stopce */
+	}
+	.why-us-image {
+		width: 100px; /* Jeszcze mniejsza szerokość logo */
+	}
+
+	.why-us {
+		padding: 10px;
+	}
+
+	.why-us-image {
+		width: 80px; /* Jeszcze mniejsze obrazki na bardzo małych ekranach */
+	}
+
+	.why-us h2 {
+		font-size: 1.2rem;
+	}
+	iframe {
+		width: 100%; /* Pełna szerokość na bardzo małych ekranach */
+		height: 500px; /* Mniejsza wysokość na telefonach */
+	}
 }
 
 /* Formularz kontaktowy */
@@ -165,84 +612,52 @@ form button:hover {
 	background-color: #004080;
 }
 
-/* Zamiast location używamy section */
-section.location {
-	padding: 100px 0;
-	background-color: #ffb6c1; /* Jasny pastelowy róż */
-	text-align: center;
-}
-
-@keyframes fadeIn {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-.fade-in-element {
-	opacity: 0;
-	animation: fadeIn 2s ease-in forwards;
-}
-
-/* Stylizacja sekcji 'why-us' */
 .why-us {
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
 	align-items: center;
-	max-width: 2500px; /* Maksymalna szerokość kontenera */
-	margin: 50px auto; /* Wyśrodkowanie kontenera na stronie */
+	justify-content: center;
+	max-width: 100%;
+	margin: 20px auto;
+	padding: 20px;
 	text-align: center;
-	border-radius: 15px; /* Zaokrąglenia rogów */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Delikatny cień dla efektu głębi */
-	padding: 20px; /* Zwiększenie przestrzeni wewnętrznej */
-	background: linear-gradient(135deg, #fddb92 0%, #d1a54d 100%); /* Gradient w odcieniach żółtego */
-	margin-bottom: 20px;
+	border-radius: 15px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background: linear-gradient(135deg, #fddb92 0%, #d1a54d 100%);
 	font-weight: bold;
-	font-size: 26px;
-	border: 2px solid white; /* Białe obramowanie */
-	transition: transform 0.3s ease, box-shadow 0.3s ease; /* Dodanie płynnej animacji */
+	font-size: 20px;
+	border: 2px solid white;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Kontener na treść i zdjęcie */
+/* Efekt hover */
+.why-us:hover {
+	transform: scale(1.05); /* Powiększenie sekcji */
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Mocniejszy cień */
+	background: linear-gradient(135deg, #d1a54d 0%, #fddb92 100%); /* Zmiana gradientu na hover */
+}
+
 .why-us-content {
 	display: flex;
+	justify-content: space-between; /* Rozkłada logo po lewej i prawej stronie, a tekst wyśrodkowany */
 	align-items: center;
-	gap: 300px; /* Odstęp między zdjęciem a tekstem */
+	flex-wrap: wrap; /* Pozwól elementom przejść do nowej linii na mniejszych ekranach */
+	gap: 10px; /* Odstęp między elementami */
+	text-align: center;
 }
 
-/* Stylizacja zdjęcia */
-.why-us-image {
-	width: 250px; /* Ustal szerokość zdjęcia */
-	height: auto;
-	border-radius: 10px; /* Zaokrąglone rogi */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Delikatny cień */
+/* Stylizacja dla logo */
+.why-us-image-left,
+.why-us-image-right {
+	width: 100px; /* Ustalona szerokość logo, dostosuj według potrzeb */
+	height: auto; /* Zachowaj proporcje */
 }
 
-/* Animacja na hover dla sekcji */
-.why-us:hover {
-	transform: scale(1.05); /* Powiększenie elementu o 5% */
-	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Mocniejszy cień przy hover */
-}
-
-/* Dostosowanie do mniejszych ekranów */
-@media (max-width: 768px) {
-	.why-us {
-		flex-direction: column;
-	}
-
-	.why-us-content {
-		flex-direction: column; /* Na mniejszych ekranach zdjęcie i tekst w kolumnie */
-	}
-
-	.why-us-image {
-		width: 100px; /* Zmniejszenie rozmiaru zdjęcia na mniejszych ekranach */
-	}
-
-	.feature {
-		margin-bottom: 30px;
-	}
+/* Stylizacja dla nagłówka, aby wyróżniał się między logo */
+.why-us-content h2 {
+	flex: 1; /* Umożliwia nagłówkowi zajęcie pełnej szerokości między logo */
+	font-size: 1.8rem; /* Dostosuj wielkość tekstu */
+	margin: 0 20px; /* Dodaj marginesy wokół tekstu */
 }
 
 .container {
@@ -400,143 +815,45 @@ section.location {
 	text-align: center;
 }
 
-/* Stylizacja galerii */
+/* Stylizacja dla elementów w galerii */
 .gallery {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-around; /* Równomierne rozmieszczenie zdjęć */
-	gap: 20px; /* Odstępy między zdjęciami */
-	margin: 40px 0; /* Marginesy wokół galerii */
+	justify-content: center;
+	gap: 10px; /* Odstępy między zdjęciami */
 }
 
-/* Każdy element w galerii */
 .gallery-item {
-	flex-basis: calc(33.333% - 20px); /* Rozkład na 3 kolumny z przerwami */
-	border-radius: 10px; /* Zaokrąglenia */
-	overflow: hidden; /* Ukrycie nadmiaru */
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień */
-	transition: transform 0.3s ease, box-shadow 0.3s ease; /* Płynne animacje */
+	flex: 1 1 calc(25% - 10px); /* Ustal szerokość na 1/4 dostępnej przestrzeni z odstępem */
+	max-width: 300px; /* Maksymalna szerokość każdej miniatury */
+	max-height: 180px; /* Maksymalna wysokość miniatury */
+	overflow: hidden;
+	border-radius: 10px; /* Zaokrąglenie rogów */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Cień dla głębi */
 }
 
-/* Obrazki wewnątrz elementów galerii */
 .gallery-item img {
-	width: 100%; /* Obrazki w pełnej szerokości kontenerów */
-	height: auto; /* Zachowanie proporcji */
-	display: block; /* Wyświetlanie jako blok */
+	width: 100%; /* Dopasowanie szerokości obrazu do kontenera */
+	height: auto; /* Zachowanie proporcji obrazu */
+	object-fit: cover; /* Przycięcie obrazu bez zniekształceń */
+	transition: transform 0.3s ease; /* Efekt hover */
 }
 
-/* Efekt hover na zdjęciach */
-.gallery-item:hover {
-	transform: scale(1.05); /* Powiększenie o 5% przy najechaniu myszką */
-	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Większy cień na hover */
+/* Efekt powiększenia na hover */
+.gallery-item:hover img {
+	transform: scale(1.05); /* Powiększenie obrazu przy najechaniu */
 }
 
-/* Responsive - Na mniejszych ekranach */
-@media (max-width: 768px) {
-	.gallery-item {
-		flex-basis: calc(50% - 20px); /* 2 kolumny na mniejszych ekranach */
-	}
+/* Dostosowanie fontów w sekcjach głównych */
+.text-mainpage,
+.main-text {
+	text-align: center;
+	font-size: 1.2rem;
+	padding: 20px;
 }
 
-@media (max-width: 480px) {
-	.gallery-item {
-		flex-basis: 100%; /* 1 kolumna na bardzo małych ekranach */
-	}
-}
-
-/* Stylizacja dla tabletów (768px i mniej) */
-@media (max-width: 768px) {
-	.navbar ul {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.navbar ul li {
-		margin: 10px 0;
-	}
-
-	.text-container {
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	.box {
-		padding: 15px;
-		font-size: 14px;
-	}
-
-	.main-text {
-		font-size: 24px; /* Zmniejsz rozmiar głównego tekstu */
-	}
-
-	.container {
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.item {
-		margin-bottom: 20px;
-	}
-}
-
-/* Stylizacja dla telefonów komórkowych (480px i mniej) */
-@media (max-width: 480px) {
-	.navbar ul {
-		flex-direction: column;
-		padding: 0;
-	}
-
-	.navbar ul li {
-		margin: 5px 0;
-	}
-
-	.navbar ul li a {
-		font-size: 14px;
-		width: 100%;
-		padding: 8px;
-	}
-
-	.main-text {
-		font-size: 20px;
-		padding: 10px;
-	}
-
-	.text-container {
-		padding: 10px;
-		font-size: 14px;
-	}
-
-	.box {
-		padding: 10px;
-		font-size: 13px;
-		box-shadow: none; /* Usunięcie cieni na mniejszych ekranach */
-	}
-
-	.logo-container img {
-		width: 80px; /* Zmniejsz logo dla telefonów */
-	}
-
-	.container {
-		flex-direction: column;
-	}
-
-	.ztl-widget-circle {
-		width: 80px;
-		height: 80px;
-	}
-
-	.ztl-widget-circle img {
-		max-width: 70%;
-	}
-
-	.ztl-widget-circle-title {
-		font-size: 14px;
-	}
-
-	footer {
-		font-size: 12px; /* Zmniejszenie czcionki w stopce */
-	}
+.large-section {
+	padding: 30px; /* Zmniejszenie paddingu dla mniejszych ekranów */
 }
 
 /* Elementy, które pojawiają się podczas przewijania */
@@ -667,24 +984,6 @@ td:first-child {
 /* Stylizacja galerii */
 .gallery-view {
 	text-align: center;
-}
-
-.gallery {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-	justify-content: center;
-}
-
-.gallery-item {
-	width: 150px;
-	cursor: pointer;
-	border-radius: 8px;
-	transition: transform 0.3s ease;
-}
-
-.gallery-item:hover {
-	transform: scale(1.1);
 }
 
 /* Pełnoekranowy widok */
@@ -828,6 +1127,7 @@ img {
 	user-drag: none;
 }
 
+/*tabela Wydarzenia */
 .news-table {
 	width: 100%;
 	border-collapse: collapse;
@@ -887,29 +1187,26 @@ img {
 	color: #fff; /* Kolor ikony */
 }
 
-/* Stylizacja kontenera z iframe */
-.iframe-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* Dodaj trochę przestrzeni wokół */
-}
-
-/* Stylizacja iframe */
-iframe {
-    width: 100%; /* Szerokość 80% kontenera */
-    height: 800px; /* Wysokość dostosowana */
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Dodaj cień dla estetyki */
-    border-radius: 10px; /* Opcjonalne zaokrąglenie */
-}
-
-#pdf-frame {
-	width: 100%; /* Szerokość 80% dostępnej przestrzeni */
-	height: 800px; /* Wysokość na stałe, np. 800px */
-	border: none;
+/* Style dla iframe - ogólne (desktop) */
+.iframe-container iframe {
+	width: 90%; /* Szerokość dla desktopu */
+	height: 600px; /* Wysokość dla desktopu */
+	display: block; /* Zapewnia blokowy układ */
 	margin: 0 auto; /* Wyśrodkowanie */
-	display: block; /* Aby wyśrodkowanie działało */
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Opcjonalnie cień */
-	border-radius: 10px; /* Opcjonalnie zaokrąglone rogi */
+}
+
+/* Dodatkowe style dla kontenera iframe na desktopie */
+.iframe-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	z-index: 10;
+}
+a.email-link {
+	word-wrap: break-word;
+	word-break: break-all;
+	text-align: center;
+	display: block;
+	max-width: 100%;
 }
